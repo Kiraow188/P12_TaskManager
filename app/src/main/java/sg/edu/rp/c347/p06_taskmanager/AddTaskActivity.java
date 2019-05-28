@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -29,11 +30,25 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name = etName.getText().toString();
+                String desc = etDesc.getText().toString();
+                DBHelper dbh = new DBHelper(AddTaskActivity.this);
+                long row_affected = dbh.insertTask(name, desc);
+                dbh.close();
+                if (row_affected != -1){
+                    Toast.makeText(AddTaskActivity.this, "Added successfully",
+                            Toast.LENGTH_SHORT).show();
+                    etName.setText("");
+                    etDesc.setText("");
 
+                }
             }
         });
+
+
     }
 }
