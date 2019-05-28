@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-    EditText etName, etDesc;
+    EditText etName, etDesc, etTime;
     Button btnAdd, btnCancel;
 
     @Override
@@ -30,6 +30,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         etDesc = findViewById(R.id.etDesc);
         etName = findViewById(R.id.etName);
+        etTime = findViewById(R.id.etReminder);
 
         btnAdd = findViewById(R.id.btnAdd);
         btnCancel = findViewById(R.id.btnCancel);
@@ -37,7 +38,7 @@ public class AddTaskActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                finish();
             }
         });
 
@@ -50,20 +51,24 @@ public class AddTaskActivity extends AppCompatActivity {
                 long row_affected = dbh.insertTask(name, desc);
                 dbh.close();
                 if (row_affected != -1) {
-                    showNotification();
+                    showNotification(Integer.parseInt(etTime.getText().toString()));
                     Toast.makeText(AddTaskActivity.this, "Added successfully",
                             Toast.LENGTH_SHORT).show();
                     etName.setText("");
                     etDesc.setText("");
+                    etTime.setText("");
+                    Intent i = new Intent();
+                    setResult(RESULT_OK, i);
 
+                    finish();
                 }
             }
         });
     }
 
-    private void showNotification(){
+    private void showNotification(int time){
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, 5);
+        cal.add(Calendar.SECOND, time);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 

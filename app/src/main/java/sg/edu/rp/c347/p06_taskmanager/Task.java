@@ -1,6 +1,8 @@
 package sg.edu.rp.c347.p06_taskmanager;
 
-public class Task {
+import java.io.Serializable;
+
+public class Task implements Serializable {
     private int id;
     private String name;
     private String description;

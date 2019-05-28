@@ -42,10 +42,27 @@ public class MainActivity extends AppCompatActivity {
         lvTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(MainActivity.this, EditTaskActivity.class);
+                Task task = tasks.get(i);
+                String id =String.valueOf(task.getId());
+                String name = task.getName();
+                String desc = task.getDescription();
+                Task target = new Task(Integer.parseInt(id), name, desc);
+                intent.putExtra("data", target);
+                startActivityForResult(intent, 9);
             }
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == 9){
+            lvTask.performClick();
+        }
     }
 }
