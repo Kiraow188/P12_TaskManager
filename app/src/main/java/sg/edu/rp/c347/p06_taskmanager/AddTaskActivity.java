@@ -1,5 +1,7 @@
 package sg.edu.rp.c347.p06_taskmanager;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -60,7 +62,6 @@ public class AddTaskActivity extends AppCompatActivity {
                     etTime.setText("");
                     Intent i = new Intent();
                     setResult(RESULT_OK, i);
-
                     finish();
                 }
             }
@@ -70,6 +71,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private void showNotification(int time){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, time);
+
+
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -98,9 +101,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
         builder.setPriority(Notification.PRIORITY_HIGH);
 
+        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+
+        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pIntent);
+
         Notification n = builder.build();
 
         notificationManager.notify(requestCode, n);
-        finish();
     }
 }

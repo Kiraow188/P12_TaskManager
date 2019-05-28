@@ -42,7 +42,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/etDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

@@ -30,7 +30,7 @@ public class EditTaskActivity extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDelete);
         btnUpdate = findViewById(R.id.btnUpdate);
 
-        tvID.setText(task.getId());
+        tvID.setText(String.valueOf(task.getId()));
         etName.setText(task.getName());
         etDesc.setText(task.getDescription());
 
