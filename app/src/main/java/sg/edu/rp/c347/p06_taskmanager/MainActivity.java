@@ -27,12 +27,7 @@ public class MainActivity extends AppCompatActivity {
         lvTask = findViewById(R.id.lvTask);
         btnAdd = findViewById(R.id.btnAdd);
 
-        DBHelper db = new DBHelper(MainActivity.this);
-        tasks = db.getAllTasks();
-        aa = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1 ,tasks);
-        lvTask.setAdapter(aa);
-        aa.notifyDataSetChanged();
-        db.close();
+        updateTable();
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
