@@ -33,6 +33,7 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
         Intent i = new Intent(context, MainActivity.class);
+        
         PendingIntent pIntent = PendingIntent.getBroadcast(context, requestCode, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
