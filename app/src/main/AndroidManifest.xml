@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sg.edu.rp.c347.p06_taskmanager">
+
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:allowBackup="true"
@@ -10,10 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditTaskActivity"></activity>
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <activity android:name=".EditTaskActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

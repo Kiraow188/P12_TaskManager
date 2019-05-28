@@ -62,6 +62,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     etTime.setText("");
                     Intent i = new Intent();
                     setResult(RESULT_OK, i);
+
                     finish();
                 }
             }
@@ -73,11 +74,11 @@ public class AddTaskActivity extends AppCompatActivity {
         cal.add(Calendar.SECOND, time);
 
         Intent intent = new Intent(AddTaskActivity.this, NotificationReceiver.class);
+        intent.putExtra("Data", etName.getText().toString());
         int requestCode = 888;
         PendingIntent pIntent = PendingIntent.getActivity(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pIntent);
     }
 }
