@@ -2,6 +2,7 @@ package sg.edu.rp.c347.p06_taskmanager;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -22,5 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         lvTask = findViewById(R.id.lvTask);
         btnAdd = findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 }
