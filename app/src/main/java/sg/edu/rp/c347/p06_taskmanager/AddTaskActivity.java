@@ -76,9 +76,10 @@ public class AddTaskActivity extends AppCompatActivity {
         Intent intent = new Intent(AddTaskActivity.this, NotificationReceiver.class);
         intent.putExtra("Data", etName.getText().toString());
         int requestCode = 888;
-        PendingIntent pIntent = PendingIntent.getActivity(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pIntent = PendingIntent.getBroadcast(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pIntent);
+        finish();
     }
 }
