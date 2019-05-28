@@ -72,41 +72,12 @@ public class AddTaskActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, time);
 
-
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("default", "DEFAULT Channel", NotificationManager.IMPORTANCE_HIGH);
-
-            channel.setDescription("This is for default notification");
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+        Intent intent = new Intent(AddTaskActivity.this, NotificationReceiver.class);
         int requestCode = 888;
         PendingIntent pIntent = PendingIntent.getActivity(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(AddTaskActivity.this, "default");
-        builder.setContentTitle("Task Manager Reminder");
-        builder.setContentText(etName.getText().toString());
-        builder.setSmallIcon(android.R.drawable.ic_dialog_info);
-        builder.setContentIntent(pIntent);
-        builder.setAutoCancel(true);
-        long[] v = {500,1000};
-        builder.setVibrate(v);
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSound(uri);
-        builder.setLights(Color.BLUE, 2000, 1000);
-
-        builder.setPriority(Notification.PRIORITY_HIGH);
 
         AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
 
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pIntent);
-
-        Notification n = builder.build();
-
-        notificationManager.notify(requestCode, n);
     }
 }
