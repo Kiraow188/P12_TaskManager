@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -30,7 +29,6 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,15 +38,48 @@ public class AddTaskActivity extends AppCompatActivity {
                 long row_affected = dbh.insertTask(name, desc);
                 dbh.close();
                 if (row_affected != -1){
+                    showNotification();
                     Toast.makeText(AddTaskActivity.this, "Added successfully",
                             Toast.LENGTH_SHORT).show();
                     etName.setText("");
                     etDesc.setText("");
 
-                }
             }
         });
-
-
     }
+
+    private void showNotification(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 5);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("default", "DEFAULT Channel", NotificationManager.IMPORTANCE_HIGH);
+
+            channel.setDescription("This is for default notification");
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+        int requestCode = 888;
+        PendingIntent pIntent = PendingIntent.getActivity(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(AddTaskActivity.this, "default");
+        builder.setContentTitle("Task Manager Reminder");
+        builder.setContentText(etName.getText().toString());
+        builder.setSmallIcon(android.R.drawable.ic_dialog_info);
+        builder.setContentIntent(pIntent);
+        builder.setAutoCancel(true);
+
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(uri);
+
+        builder.setPriority(Notification.PRIORITY_HIGH);
+
+        Notification n = builder.build();
+
+        notificationManager.notify(requestCode, n);
+        finish();
+    };
 }
