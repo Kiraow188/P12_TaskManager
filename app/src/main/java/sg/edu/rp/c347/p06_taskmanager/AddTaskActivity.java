@@ -68,8 +68,8 @@ public class AddTaskActivity extends AppCompatActivity {
         PendingIntent pIntent = PendingIntent.getActivity(AddTaskActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(AddTaskActivity.this, "default");
-        builder.setContentTitle("Amazing Offer!");
-        builder.setContentText("Subject");
+        builder.setContentTitle("Task Manager Reminder");
+        builder.setContentText(etName.getText().toString());
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setContentIntent(pIntent);
         builder.setAutoCancel(true);
