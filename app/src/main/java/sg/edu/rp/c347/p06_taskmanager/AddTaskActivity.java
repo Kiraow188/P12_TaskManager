@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -89,9 +90,11 @@ public class AddTaskActivity extends AppCompatActivity {
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setContentIntent(pIntent);
         builder.setAutoCancel(true);
-
+        long[] v = {500,1000};
+        builder.setVibrate(v);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(uri);
+        builder.setLights(Color.BLUE, 2000, 1000);
 
         builder.setPriority(Notification.PRIORITY_HIGH);
 
