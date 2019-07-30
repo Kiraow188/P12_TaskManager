@@ -14,6 +14,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -32,8 +33,32 @@ public class NotificationReceiver extends BroadcastReceiver {
             channel.setDescription("This is for default notification");
             notificationManager.createNotificationChannel(channel);
         }
+
+        Intent intent1 = new Intent(context, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.mipmap.ic_launcher, "This is an Action", pendingIntent).build();
+
+        Intent intentreply = new Intent(context, ReplyActivity.class);
+        PendingIntent pendingIntentReply = PendingIntent.getActivity(context, 0, intentreply, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        RemoteInput ri = null;
+        ri = new RemoteInput.Builder("status")
+                .setLabel("Status report")
+                .setChoices(new String[] {"Completed", "Not yet"})
+                .build();
+
+        NotificationCompat.Action action2 = new NotificationCompat.Action.Builder(R.mipmap.ic_launcher, "Reply", pendingIntentReply)
+                .addRemoteInput(ri)
+                .build();
+
+        NotificationCompat.WearableExtender extender = new NotificationCompat.WearableExtender();
+        extender.addAction(action);
+        extender.addAction(action2);
+
+
         Intent i = new Intent(context, MainActivity.class);
-        
+
         PendingIntent pIntent = PendingIntent.getBroadcast(context, requestCode, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
@@ -42,6 +67,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setContentIntent(pIntent);
         builder.setAutoCancel(true);
+        builder.extend(extender);
+
         long[] v = {500,1000};
         builder.setVibrate(v);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
